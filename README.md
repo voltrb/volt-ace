@@ -1,29 +1,19 @@
 # Volt::Ace
 
-TODO: Write a gem description
+A quick ace editor example
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'volt-ace'
+    gem 'volt-ace', path: 'path/to/local/copy/of/repo
 
-And then execute:
+Next, include this as a dependency in any components you want to use the editor in
 
-    $ bundle
+    component 'ace'
 
-Or install it yourself as:
+Finally, use the ```<:ace:editor />``` tag like so:
 
-    $ gem install volt-ace
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( http://github.com/[my-github-username]/volt-ace/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```html
+<:ace:editor value="{page._code}" mode="ace/mode/javascript" />
+```
