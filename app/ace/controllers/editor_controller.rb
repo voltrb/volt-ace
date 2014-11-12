@@ -1,7 +1,8 @@
 module Ace
-  class EditorController < ModelController
+  class EditorController < Volt::ModelController
     attr_accessor :section
     def index
+      @value = {}
     end
 
     # Change the ace editor mode.  Handle if mode isn't passed in.
@@ -15,9 +16,9 @@ module Ace
     end
 
     # When the dom is ready, setup the editor
-    def dom_ready
+    def index_ready
+      puts 'index_ready'
       node = section.container_node
-
       %x{
         var editorDiv = $(node).find('.ace-editor').get(0);
         this.editor = ace.edit(editorDiv);
@@ -25,7 +26,7 @@ module Ace
         this.editor.setTheme("ace/theme/twilight");
       }
 
-      @value_listener = @value.on('changed') do
+      @value_listener = @value.try(:on, 'changed') do
         unless @updating
           new_value = @value.cur
           `this.editor.setValue(new_value)`
@@ -38,7 +39,7 @@ module Ace
         new_value = "" + new_value
 
         @updating = true
-        @value.cur = new_value
+        @value.cur = new_value if @value.try(:cur)
         @updating = false
       `});`
       puts instance_variables.inspect
@@ -52,7 +53,7 @@ module Ace
       change_mode
     end
 
-    def dom_removed
+    def index_removed
       @value_listener.remove if @value_listener
       @mode_listener.remove if @mode_listener
     end
